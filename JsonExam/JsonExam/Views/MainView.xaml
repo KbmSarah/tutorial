@@ -1,0 +1,30 @@
+﻿<Window x:Class="JsonExam.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:JsonExam.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Window.DataContext>
+        <ViewModels:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Members}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="entry id" Binding="{Binding entry_id}"/>
+                <DataGridTextColumn Header="plate num" Binding="{Binding plate_num}" />
+                <DataGridTextColumn Header="ticket type" Binding="{Binding ticket_type}"/>
+                <DataGridTextColumn Header="pay stat" Binding="{Binding pay_stat}"/>
+                <DataGridTextColumn Header="in time" Binding="{Binding in_time}"/>
+                <DataGridTextColumn Header="out time" Binding="{Binding out_time}"/>
+                <DataGridTextColumn Header="pay time" Binding="{Binding pay_time}"/>
+                <DataGridTextColumn Header="in image path" Binding="{Binding in_image_path}"/>
+                <DataGridTextColumn Header="out image path" Binding="{Binding out_image_path}"/>
+                <DataGridTextColumn Header="in lpr name" Binding="{Binding in_lpr_name}"/>
+                <DataGridTextColumn Header="out lpr name" Binding="{Binding out_lpr_name}"/>
+                <DataGridTextColumn Header="pay station name" Binding="{Binding pay_station_name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
