@@ -141,21 +141,21 @@
         </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <Button Command="{Binding CmdRestRequest}" Content="추가">
+            <Button Command="{Binding CmdRestRequest}" CommandParameter="insert" Content="추가">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:KeyToCommand 
                     KeyGesture="ctrl+i" Command="{Binding CmdRestRequest}" CommandParameter="insert"
                                      SourceObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </dxmvvm:Interaction.Behaviors>
             </Button>
-            <Button Command="{Binding CmdRestRequest}" Content="수정">
+            <Button Command="{Binding CmdRestRequest}" CommandParameter="update" Content="수정">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:KeyToCommand 
                     KeyGesture="ctrl+u" Command="{Binding CmdRestRequest}" CommandParameter="update"
                                      SourceObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 </dxmvvm:Interaction.Behaviors>
             </Button>
-            <Button Command="{Binding CmdRestRequest}" Content="삭제">
+            <Button Command="{Binding CmdRestRequest}" CommandParameter="delete" Content="삭제">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:KeyToCommand 
                     KeyGesture="ctrl+d" Command="{Binding CmdRestRequest}" CommandParameter="delete"
