@@ -1,0 +1,88 @@
+﻿<Window x:Class="RestApiExam.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:ViewModels="clr-namespace:RestApiExam.ViewModels"
+             xmlns:Views="clr-namespace:RestApiExam.Views"
+             xmlns:Common="clr-namespace:RestApiExam.Common"
+             mc:Ignorable="d"
+        Width="1140" Height="800"
+             d:DesignHeight="450" d:DesignWidth="1120"
+        MinWidth="700" MinHeight="500">
+    <Window.DataContext>
+        <ViewModels:MainViewModel/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+
+        <ToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="선택"
+                   IsChecked="{Binding IsVisibleButton, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <DataGrid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" CanUserResizeRows="False" 
+            AutoGenerateColumns="False" ItemsSource="{Binding CmtLists}" SelectedItem="{Binding SelectedCmtList}"
+                  CanUserAddRows="False" CanUserDeleteRows="False" RowHeaderWidth="0" >
+            <DataGrid.Resources>
+                <ViewModels:BindingProxy x:Key="proxy" Data="{Binding }"/>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Visibility="{Binding Data.IsVisibleButton, Source={StaticResource proxy}, Converter={StaticResource VisibilityConverter}}">
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox IsChecked="{Binding Data.AllSelected, UpdateSourceTrigger=PropertyChanged,
+                            Source={StaticResource proxy}}"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" 
+                                      IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="cmt id" Binding="{Binding cmt_id}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="cmt code" Binding="{Binding cmt_code}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="start date" Binding="{Binding start_date}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="end date" Binding="{Binding end_date}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="plate num" Binding="{Binding plate_num}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="user name" Binding="{Binding user_name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="phone" Binding="{Binding phone}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="fee" Binding="{Binding fee}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="memo" Binding="{Binding memo}" IsReadOnly="True" Width="*"/>
+            </DataGrid.Columns>
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding CmdSelectionChanged}"/>
+            </dxmvvm:Interaction.Behaviors>
+        </DataGrid>
+
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Views:RegistratorView DataContext="{Binding RegistratorVM}"/>
+        </Grid>
+
+        <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,10,5">
+            <Button Command="{Binding CmdMultiSelectDelete}" Visibility="{Binding IsVisibleButton, Converter={StaticResource VisibilityConverter}}">다중 삭제</Button>
+            <Button Command="{Binding CmdClearSelectedList}">_Clear</Button>
+        </StackPanel>
+
+    </Grid>
+</Window>

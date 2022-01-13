@@ -1,0 +1,168 @@
+﻿<UserControl x:Class="RestApiExam.Views.RegistratorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:ViewModels="clr-namespace:RestApiExam.ViewModels"
+             xmlns:Common="clr-namespace:RestApiExam.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="550" d:DesignWidth="410">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="222"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" 
+                            Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="IsEnabled" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=TxtCmtId, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtCmtCode, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtStartDate, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtEndDate, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtPlateNum, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtUserName, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtPhone, Path=(Validation.HasError)}" Value="false" />
+                        <Condition Binding="{Binding ElementName=TxtFee, Path=(Validation.HasError)}" Value="false" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="IsEnabled" Value="True"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid  Grid.Row="0">
+            <TextBlock Margin="27,20,0,0" Text="cmt id:"/>
+            <TextBlock Margin="27,50,0,0" Text="cmt code:" />
+            <TextBlock Margin="27,80,0,0" Text="start date" />
+            <TextBlock Margin="27,107,0,0" Text="end date" />
+            <TextBlock Margin="27,136,0,0" Text="plate num:" />
+            <TextBlock Margin="27,166,0,0" Text="user name:" />
+            <TextBlock Margin="27,196,0,0" Text="phone:"/>
+            <TextBlock Margin="27,226,0,0" Text="fee:" />
+            <TextBlock Margin="27,257,0,0" Text="memo:" />
+
+            <TextBox Margin="153,20,0,0" Name="TxtCmtId">
+                <Binding Path="CmtId" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True"
+                         ValidatesOnExceptions="True">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="Cmt ID"/>
+                        <Common:NumericFormatRule Name="Cmt ID"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,50,0,0" Name="TxtCmtCode">
+                <TextBox.Text>
+                    <Binding Path="CmtCode" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <Common:MandatoryRule Name="Cmt code"/>
+                            <Common:NumericFormatRule Name="Cmt code"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Margin="153,80,0,0"  Name="TxtStartDate">
+                <Binding Path="StartDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="StartDate"/>
+                        <Common:DateTimeFormatRule Name="StartDate"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,107,0,0" Name="TxtEndDate">
+                <Binding Path="EndDate" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="EndDate"/>
+                        <Common:DateTimeFormatRule Name="EndDate"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,136,0,0" Name="TxtPlateNum">
+                <Binding Path="PlateNum" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="PlateNum"/>
+                        <Common:PlateNumFormatRule Name="PlateNum"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,166,0,0" Name="TxtUserName">
+                <Binding Path="UserName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="UserName"/>
+                        <Common:UserNameFormatRule Name="UserName"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,196,0,0" Name="TxtPhone">
+                <Binding Path="Phone" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="Phone"/>
+                        <Common:PhoneNumberFormatRule Name="Phone"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+            <TextBox Margin="153,226,0,0" Name="TxtFee">
+                <Binding Path="Fee" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Common:MandatoryRule Name="Fee"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
+
+            <TextBox Margin="153,256,0,0">
+                <TextBox.Text>
+                    <Binding Path="Memo" UpdateSourceTrigger="PropertyChanged" />
+                </TextBox.Text>
+            </TextBox>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <Button Command="{Binding CmdRestRequest}" Content="추가">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:KeyToCommand 
+                    KeyGesture="ctrl+i" Command="{Binding CmdRestRequest}" CommandParameter="insert"
+                                     SourceObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </Button>
+            <Button Command="{Binding CmdRestRequest}" Content="수정">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:KeyToCommand 
+                    KeyGesture="ctrl+u" Command="{Binding CmdRestRequest}" CommandParameter="update"
+                                     SourceObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </Button>
+            <Button Command="{Binding CmdRestRequest}" Content="삭제">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:KeyToCommand 
+                    KeyGesture="ctrl+d" Command="{Binding CmdRestRequest}" CommandParameter="delete"
+                                     SourceObject="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
