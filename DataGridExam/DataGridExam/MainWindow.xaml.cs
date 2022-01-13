@@ -38,7 +38,13 @@ namespace DataGridExam
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine(custdata.ElementAt(0).FirstName);
+            Console.WriteLine(custdata.ElementAt(0).IsSelected);
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(sender);
+            Console.WriteLine(e);
         }
     }
 
@@ -59,15 +65,69 @@ namespace DataGridExam
         }
     }
 
-    //Defines the customer object
-    public class Customer
+    public class RowItem : Notifier
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        private bool _isSelected;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                Notify("IsSelected");
+            }
+        }
+
+    }
+
+    //Defines the customer object
+    public class Customer : Notifier
+    {
+        private bool _isSelected;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                Notify("IsSelected");
+            }
+        }
+
+
+        private string _firstName;
+
+        public string FirstName
+        {
+            get { return _firstName; }
+            set
+            {
+                _firstName = value;
+                Notify("FirstName");
+            }
+        }
+
+        private string _lastName;
+
+        public string LastName
+        {
+            get { return _lastName; }
+            set
+            {
+                _lastName = value;
+                Notify("LastName");
+            }
+        }
+
+
         public Uri Email { get; set; }
         public bool IsMember { get; set; }
         public OrderStatus Status { get; set; }
     }
+
+    
 
     public enum OrderStatus
     {

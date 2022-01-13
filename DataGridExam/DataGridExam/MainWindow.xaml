@@ -18,14 +18,31 @@
     <StackPanel Name="CustomerGrid">
         <Button Click="Button_Click" Height="50" Width="100" Margin="10"></Button>
         <DataGrid  ItemsSource="{Binding}" AlternatingRowBackground="LightBlue" 
-              AutoGenerateColumns="False" AlternationCount="2">
+              AutoGenerateColumns="False" AlternationCount="2" CanUserResizeRows="False"
+                   RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False">
+            
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <CheckBox IsChecked="{Binding Path=DataContext.AllSelected,
+                                   UpdateSourceTrigger=PropertyChanged,
+                                   RelativeSource={RelativeSource FindAncestor,
+                                       AncestorType={x:Type Window}}}" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" Checked="CheckBox_Checked"
+                                  IsChecked="{Binding Path=IsSelected,
+                                      UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="First Name"  Binding="{Binding FirstName}"/>
                 <DataGridTextColumn Header="Last Name" Binding="{Binding LastName}" />
                 <!--The Email property contains a URI.  For example "mailto:lucy0@adventure-works.com"-->
                 <DataGridHyperlinkColumn Header="Email" Binding="{Binding Email}"  ContentBinding="{Binding Email, Converter={StaticResource EmailConverter}}" />
                 <DataGridCheckBoxColumn Header="IsMember?" Binding="{Binding IsMember}" />
-                <DataGridComboBoxColumn Header="Status"  SelectedItemBinding="{Binding Status}" ItemsSource="{Binding Source={StaticResource myEnum}}"/>
+                <DataGridComboBoxColumn Header="Status"  SelectedItemBinding="{Binding Status}" ItemsSource="{Binding Source={StaticResource myEnum}}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </StackPanel>
