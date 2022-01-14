@@ -35,11 +35,11 @@ namespace RestApiExam.ViewModels
         #endregion
 
         #region Properties
-        private RegistratorViewModel _registratorVM;
-        public RegistratorViewModel RegistratorVM
+        private RegistratorViewModel _registratorViewModel;
+        public RegistratorViewModel RegistratorViewModel
         {
-            get { return _registratorVM; }
-            set { base.SetValue(ref _registratorVM, value); }
+            get { return _registratorViewModel; }
+            set { base.SetValue(ref _registratorViewModel, value); }
         }
         public ObservableCollection<CmtNotify> CmtLists
         {
@@ -162,23 +162,22 @@ namespace RestApiExam.ViewModels
 
             var result = jObject["result_msg"];
 
-            if (result != null)
-            {
-                Console.WriteLine(result);
-
-                if (jObject["result_msg"].ToString() != "success")
-                {
-                    MessageBox.Show("Request Fail", "Request result", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                await Task.Factory.StartNew(() => RequestCommuterList());
-                ExecCmdClearSelectedList();
-            }
-            else
+            if (result == null)
             {
                 MessageBox.Show("Request Fail", "Response is null", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
+
+            Console.WriteLine(result);
+
+            if (jObject["result_msg"].ToString() != "success")
+            {
+                MessageBox.Show("Request Fail", "Request result", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            await Task.Factory.StartNew(() => RequestCommuterList());
+            ExecCmdClearSelectedList();
         }
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace RestApiExam.ViewModels
         /// </summary>
         private void ExecCmdSelectionChanged()
         {
-            this.RegistratorVM.SetList(SelectedCmtList);
+            this.RegistratorViewModel.SetList(SelectedCmtList);
         }
 
         /// <summary>
@@ -206,7 +205,7 @@ namespace RestApiExam.ViewModels
                 fee = null,
                 memo = string.Empty
             };
-            RegistratorVM.SetList(ClearSelectedItem);
+            RegistratorViewModel.SetList(ClearSelectedItem);
             SelectedCmtList = null;
         }
 
@@ -216,7 +215,7 @@ namespace RestApiExam.ViewModels
         /// <param name="command"></param>
         private void RestApiModifyRequest(string command)
         {
-            SelectedCmtList = this.RegistratorVM.GetList();
+            SelectedCmtList = this.RegistratorViewModel.GetList();
 
             JObject jsonParam = JObject.FromObject(new
             {
@@ -260,8 +259,8 @@ namespace RestApiExam.ViewModels
                         memo = item.memo
                     });
 
+                    // 서버에 다중삭제 요청하면 에러날 수 있어서 실제 삭제 Task 돌리는 대신 출력만...
                     Console.WriteLine(jsonParam.ToString());
-
                     // Task.Factory.StartNew(() => UpdateCmtList(jsonParam));
                 }
             }
@@ -300,8 +299,8 @@ namespace RestApiExam.ViewModels
                     CmtLists = null;
                 }
 
-                RegistratorVM.ButtonClickedEvent -= RestApiModifyRequest;
-                RegistratorVM?.Dispose();
+                RegistratorViewModel.ButtonClickedEvent -= RestApiModifyRequest;
+                RegistratorViewModel?.Dispose();
 
                 //CmtLists를 참조하기 때문에 이미 해제됨
                 // SelectedCmtList?.Dispose(); 
@@ -312,8 +311,8 @@ namespace RestApiExam.ViewModels
         #region Constructors
         public MainViewModel()
         {
-            this.RegistratorVM = new RegistratorViewModel();
-            RegistratorVM.ButtonClickedEvent += RestApiModifyRequest;
+            this.RegistratorViewModel = new RegistratorViewModel();
+            RegistratorViewModel.ButtonClickedEvent += RestApiModifyRequest;
 
             client = new RestClient(baseURL);
             SelectedCmtList = new CmtNotify();

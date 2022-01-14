@@ -10,7 +10,7 @@
              mc:Ignorable="d"
         Width="1140" Height="800"
              d:DesignHeight="450" d:DesignWidth="1120"
-        MinWidth="700" MinHeight="500">
+        MinWidth="100" MinHeight="500">
     <Window.DataContext>
         <ViewModels:MainViewModel/>
     </Window.DataContext>
@@ -38,12 +38,12 @@
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
-        <ToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="선택"
+        <ToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Content="선택" Margin="3"
                    IsChecked="{Binding IsVisibleButton, UpdateSourceTrigger=PropertyChanged}"/>
         
         <DataGrid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" CanUserResizeRows="False" 
             AutoGenerateColumns="False" ItemsSource="{Binding CmtLists}" SelectedItem="{Binding SelectedCmtList}"
-                  CanUserAddRows="False" CanUserDeleteRows="False" RowHeaderWidth="0" >
+                  CanUserAddRows="False" CanUserDeleteRows="False" RowHeaderWidth="0" Margin="3">
             <DataGrid.Resources>
                 <ViewModels:BindingProxy x:Key="proxy" Data="{Binding }"/>
             </DataGrid.Resources>
@@ -76,7 +76,7 @@
         </DataGrid>
 
         <Grid Grid.Column="2" Grid.Row="1">
-            <Views:RegistratorView DataContext="{Binding RegistratorVM}"/>
+            <Views:RegistratorView DataContext="{Binding RegistratorViewModel}"/>
         </Grid>
 
         <StackPanel Grid.Column="2" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,0,10,5">

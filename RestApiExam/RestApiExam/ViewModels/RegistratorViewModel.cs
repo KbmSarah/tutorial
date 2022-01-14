@@ -94,19 +94,19 @@ namespace RestApiExam.ViewModels
         /// Set textbox display with SelectedItem from parent view.
         /// </summary>
         /// <param name="SelectedItem">Selected item from DataGrid(parent view)</param>
-        public void SetList(CmtNotify SelectedItem)
+        public void SetList(CmtNotify selectedItem)
         {
-            if (SelectedItem != null)
+            if (selectedItem != null)
             {
-                CmtId = SelectedItem.cmt_id;
-                CmtCode = SelectedItem.cmt_code;
-                StartDate = SelectedItem.start_date;
-                EndDate = SelectedItem.end_date;
-                PlateNum = SelectedItem.plate_num;
-                UserName = SelectedItem.user_name;
-                Phone = SelectedItem.phone;
-                Fee = SelectedItem.fee;
-                Memo = SelectedItem.memo;
+                CmtId = selectedItem.cmt_id;
+                CmtCode = selectedItem.cmt_code;
+                StartDate = selectedItem.start_date;
+                EndDate = selectedItem.end_date;
+                PlateNum = selectedItem.plate_num;
+                UserName = selectedItem.user_name;
+                Phone = selectedItem.phone;
+                Fee = selectedItem.fee;
+                Memo = selectedItem.memo;
             }
         }
 
